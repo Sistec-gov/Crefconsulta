@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta Cadastral - CREF1/RJ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        
+        body {
+            background-color: #f2f2f2;
+            color: #333;
+            line-height: 1.5;
+        }
+        
+        .container {
+            width: 95%;
+            max-width: 1000px;
+            margin: 20px auto;
+            background: white;
+            border: 1px solid #ddd;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            background-color: #0066cc;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 4px solid #004488;
+        }
+        
+        .header-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+        
+        .header-logo {
+            height: 80px;
+            width: auto;
+        }
+        
+        .main-content {
+            padding: 20px;
+        }
+        
+        .form-container {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .form-row {
+            margin-bottom: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .form-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-size: 14px;
+        }
+        
+        select.form-control {
+            height: 34px;
+            background-color: white;
+        }
+        
+        .btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .btn-primary {
+            background-color: #0066cc;
+            color: white;
+        }
+        
+        .btn-default {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+        
+        .results-container {
+            border: 1px solid #ddd;
+            padding: 15px;
+            background-color: white;
+        }
+        
+        .results-title {
+            color: #0066cc;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #eee;
+            font-weight: bold;
+        }
+        
+        .no-results {
+            color: #777;
+            font-style: italic;
+        }
+        
+        .result-item {
+            margin-bottom: 8px;
+            padding-left: 15px;
+            position: relative;
+        }
+        
+        .result-item:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #0066cc;
+            font-weight: bold;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #f5f5f5;
+            border-top: 1px solid #ddd;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+            
+            .header-logo {
+                height: 70px;
+            }
+            
+            .form-group {
+                min-width: 100%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .main-content {
+                padding: 15px 10px;
+            }
+            
+            .header-logo {
+                height: 60px;
+            }
+            
+            .btn {
+                width: 100%;
+                margin-bottom: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-title">CONSULTA PÚBLICA</div>
+            <img src="https://media.licdn.com/dms/image/v2/D560BAQHbIXYqp3AlsA/company-logo_200_200/company-logo_200_200/0/1694700286767/cref1_rj_logo?e=2147483647&v=beta&t=YYbhfSzl8_DNEgZrAEPQNAiB0hEF1iYOaeTwvj0ZAYg" alt="CREF1/RJ" class="header-logo">
+        </div>
+        
+        <div class="main-content">
+            <div class="form-container">
+                <form id="consultaForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="tipoConsulta">Tipo de Consulta:</label>
+                            <select id="tipoConsulta" class="form-control">
+                                <option value="nome">Por Nome</option>
+                                <option value="registro">Por Número de Registro</option>
+                                <option value="cpf">Por CPF</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="valorConsulta">Valor da Consulta:</label>
+                            <input type="text" id="valorConsulta" class="form-control" placeholder="Digite aqui...">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <button type="submit" class="btn btn-primary">Consultar</button>
+                        <button type="reset" class="btn btn-default">Limpar</button>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="results-container" id="resultadoConsulta">
+                <div class="results-title">RESULTADO DA CONSULTA</div>
+                <p class="no-results">Nenhum registro encontrado.</p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            © 2024 - Sistema SpiderWeb - CREF1/RJ
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("consultaForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            
+            const tipo = document.getElementById("tipoConsulta").value;
+            const valor = document.getElementById("valorConsulta").value.trim();
+            const resultadoDiv = document.getElementById("resultadoConsulta");
+            
+            if (!valor) {
+                resultadoDiv.innerHTML = `
+                    <div class="results-title">RESULTADO DA CONSULTA</div>
+                    <p style="color: #d9534f;">Por favor, informe um valor para consulta.</p>
+                `;
+                return;
+            }
+            
+            // Dados simulados com as informações específicas solicitadas
+            const dados = {
+                nome: {
+                    titulo: "RESULTADO POR NOME",
+                    itens: [
+                        `Nome: JOÃO BATISTA IZAIAS`,
+                        `Registro: 05687-G/RJ`,
+                        `Situação: Regular`,
+                        `Categoria: Educação Física`,
+                        `Validade: 08/10/2031`
+                    ]
+                },
+                registro: {
+                    titulo: "RESULTADO POR REGISTRO",
+                    itens: [
+                        `Registro: 05687-G/RJ`,
+                        `Nome: JOÃO BATISTA IZAIAS`,
+                        `Situação: Regular`,
+                        `Categoria: Educação Física`,
+                        `Validade: 08/10/2031`
+                    ]
+                },
+                cpf: {
+                    titulo: "RESULTADO POR CPF",
+                    itens: [
+                        `CPF: ${valor}`,
+                        `Nome: JOÃO BATISTA IZAIAS`,
+                        `Registro: 05687-G/RJ`,
+                        `Situação: Regular`,
+                        `Validade: 08/10/2031`
+                    ]
+                }
+            };
+            
+            const resultado = dados[tipo] || dados.nome;
+            
+            let html = `<div class="results-title">${resultado.titulo}</div>`;
+            resultado.itens.forEach(item => {
+                html += `<div class="result-item">${item}</div>`;
+            });
+            
+            resultadoDiv.innerHTML = html;
+        });
+        
+        document.getElementById("consultaForm").addEventListener("reset", function() {
+            document.getElementById("resultadoConsulta").innerHTML = `
+                <div class="results-title">RESULTADO DA CONSULTA</div>
+                <p class="no-results">Nenhum registro encontrado.</p>
+            `;
+        });
+    </script>
+</body>
+</html>
